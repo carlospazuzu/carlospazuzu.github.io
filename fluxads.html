@@ -59,11 +59,11 @@
       
       if (!(disc in flux)) return;
       
-      for (i = 0; i < flux[disc].length; i ++) {
-          document.getElementById(flux[disc][i]).style.background = color == '#f55' ? '#f55' : 'ff8000';
-	  highlight(flux[disc][i], '#ff8000');
+      for (i = 0; i < flux[disc].length; i ++) {      	
+        document.getElementById(flux[disc][i]).style.background = color;
       }
-      document.getElementById(disc).style.background = '#9f9';
+		
+		document.getElementById(disc).style.background = '#9f9';
       
     }
     function turnoff(disc) {      
