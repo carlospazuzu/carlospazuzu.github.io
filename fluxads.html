@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  
+   <style>
+     .disciplina {
+       border: 1px solid #000; 
+       width: 200px; 
+       height: 100px; 
+       text-align: center; 
+       top: 50%; 
+       display: table-cell; 
+       vertical-align: middle;       
+       padding: 10px;       
+     }
+     
+     .row .col p {
+       text-align: center;
+       margin: 2px;       
+     }
+     
+  </style> 
+  
+  <title>JS Bin</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  
+  <script>
+    
+    var flux = {
+      'arq702': ['mig1049'],
+      'poo1243': ['mig3223', 'mig1049'],
+      'edd3710': ['mig3223', 'mig1049'],
+      'sin1328': ['mig1049'],
+      'so4677': ['mig1049'],
+      'mig676': ['poo1243'],
+      'mig714': ['edd3710'],
+      'cinf063': ['mig4005'],
+      'cinf062': ['edd3710', 'poo1243'],
+      'mig1293': ['so4677'],
+      'eng1.867': ['mig676', 'cinf062'],
+      'cinf065': ['mig1049'],
+      'cinf064': ['mig714', 'cinf062'],
+      'pbd1252': ['mig714'],
+      'cinf068': ['eng1.867'],
+      'cinf069': ['cinf063', 'eng1.867'],
+      'cinf070': ['poo1243'],
+      'cinf067': ['cinf064'],
+      'cinf066': ['eng1.867', 'pbd1252', 'mec4195', 'cinf064', 'cinf065'],
+      'emp3653': ['cinf063'],
+      'cinf074': ['mig1049'],
+      'cinf071': ['mig1293', 'cinf064'],
+      'cinf072': ['cinf067', 'cinf068'],
+      'cinf073': ['mig3696', 'cinf066', 'cinf067', 'cinf068', 'cinf069', 'cinf070']
+    }
+    
+    function highlight(disc) {      
+      
+      if (!(disc in flux)) return;
+      
+      for (i = 0; i < flux[disc].length; i ++)
+          document.getElementById(flux[disc][i]).style.background = '#f55';
+      document.getElementById(disc).style.background = '#9f9';
+      
+    }
+    function turnoff(disc) {      
+      
+      if (!(disc in flux)) return;
+      
+      for (i = 0; i < flux[disc].length; i ++)
+        document.getElementById(flux[disc][i]).style.background = '#fff';
+      document.getElementById(disc).style.background = '#fff';      
+    }
+    
+  </script>
+  
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <p>1º Período</p>
+        <div class="disciplina" id="mig3223" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Algoritmos e Programação          
+        </div>        
+        <br>
+        <div class="disciplina" id="mig3242" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Inglês Instrumental          
+        </div>
+        <br>
+        <div class="disciplina" id="mig4005" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Introdução à Administração
+        </div>
+        <br>
+        <div class="disciplina" id="mig1049" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Introdução à Computação
+        </div>
+        <br>
+        <div class="disciplina" id="mig4080" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Língua Portuguesa
+        </div>
+        <br>
+        <div class="disciplina" id="cmf022" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Matemática Computacional
+        </div>
+      </div>
+      
+      <div class="col">
+        <p>2º Período</p>
+        <div class="disciplina" id="arq702" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Arquitetura de Computadores
+        </div>
+        <br>
+        <div class="disciplina" id="edd3710" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Estrutura de Dados
+        </div>
+        <br>
+        <div class="disciplina" id="poo1243" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Programação Orientada a Objeto
+        </div>
+        <br>
+        <div class="disciplina" id="sin1328" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Sistemas de Informação
+        </div>
+        <br>
+        <div class="disciplina" id="so4677" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Sistemas Operacionais
+        </div>
+      </div>
+      
+      <div class="col">
+        <p>3º Período</p>
+        <div class="disciplina" id="mig676" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Análise Orientada a Objetos
+        </div>
+        <br>
+        <div class="disciplina" id="mig714" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Banco de Dados
+        </div>
+        <br>
+        <div class="disciplina" id="cinf063" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Organização, Sistemas e Métodos
+        </div>
+        <br>
+        <div class="disciplina" id="cinf062" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Programação Corporativa
+        </div>
+        <br>
+        <div class="disciplina" id="mig1293" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Redes de Computadores
+        </div>
+      </div>
+      <div class="col">
+        <p>4º Período</p>
+        <div class="disciplina" id="eng1.867" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Engenharia de Software I
+        </div>
+        <br>
+        <div class="disciplina" id="cinf065" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Interação Humano-Computador
+        </div>
+        <br>
+        <div class="disciplina" id="mec4195" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Metodologia Científica
+        </div>
+        <br>
+        <div class="disciplina" id="cinf064" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Programação para a Internet
+        </div>
+        <br>
+        <div class="disciplina" id="pbd1252" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Projeto de Banco de Dados
+        </div>
+      </div>
+      <div class="col">
+        <p>5º Período</p>
+        <div class="disciplina" id="cinf068" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Engenharia de Software II
+        </div>
+        <br>
+        <div class="disciplina" id="mig3696" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Estatística
+        </div>
+        <br>
+        <div class="disciplina" id="cinf069" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Gerencia de Proj. em Sistemas de Informação
+        </div>
+        <br>
+        <div class="disciplina" id="cinf070" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Sistemas Multimídia
+        </div>
+        <br>
+        <div class="disciplina" id="cinf067" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Tópicos Especiais em Programação
+        </div>
+        <br>
+        <div class="disciplina" id="cinf066" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Trabalho de Conclusão de Curso I
+        </div>
+      </div>
+      <div class="col">
+        <p>6º Período</p>
+        <div class="disciplina" id="emp3653" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Empreendedorismo
+        </div>
+        <br>
+        <div class="disciplina" id="cinf074" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Ética e Legislação em Informática
+        </div>
+        <br>
+        <div class="disciplina" id="cinf071" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Segurança e auditoria de Sistemas
+        </div>
+        <br>
+        <div class="disciplina" id="cinf072" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Tópicos especiais em Sistemas de Informação
+        </div>
+        <br>
+        <div class="disciplina" id="cinf073" onmouseenter="highlight(this.id)" onmouseout="turnoff(this.id)">
+          Trabalho de Conclusão de Curso II
+        </div>
+      </div>
+    </div>
+  </div>  
+  
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>    
+  
+</body>
+</html>
