@@ -55,12 +55,14 @@
       'cinf073': ['mig3696', 'cinf066', 'cinf067', 'cinf068', 'cinf069', 'cinf070']
     }
     
-    function highlight(disc) {      
+    function highlight(disc, color = '#f55') {      
       
       if (!(disc in flux)) return;
       
-      for (i = 0; i < flux[disc].length; i ++)
-          document.getElementById(flux[disc][i]).style.background = '#f55';
+      for (i = 0; i < flux[disc].length; i ++) {
+          document.getElementById(flux[disc][i]).style.background = color == '#f55' ? '#f55' : 'ff8000';
+	  highlight(flux[disc][i], '#ff8000');
+      }
       document.getElementById(disc).style.background = '#9f9';
       
     }
