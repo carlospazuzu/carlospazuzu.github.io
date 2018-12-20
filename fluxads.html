@@ -55,13 +55,15 @@
       'cinf073': ['mig3696', 'cinf066', 'cinf067', 'cinf068', 'cinf069', 'cinf070']
     }
     
-    function highlight(disc) {      
+    function highlight(disc, color = '#f55') {      
       
       if (!(disc in flux)) return;
       
-      for (i = 0; i < flux[disc].length; i ++)
-          document.getElementById(flux[disc][i]).style.background = '#f55';
-      document.getElementById(disc).style.background = '#9f9';
+      for (i = 0; i < flux[disc].length; i ++) {      	
+        document.getElementById(flux[disc][i]).style.background = color;
+      }
+		
+		document.getElementById(disc).style.background = '#9f9';
       
     }
     function turnoff(disc) {      
