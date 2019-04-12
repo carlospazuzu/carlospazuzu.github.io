@@ -4,30 +4,165 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>COGUMELANDO'S MYSTERY RACE MASTER TIMER</title>
+    <title>Carlos Pazuzu - Web & Mobile Programmer</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="icons.css">
+    <style>
+        html {
+            overflow-x: visible;
+        }
+        body {
+            margin: 0;
+            background-color: #FFF;
+            padding: 0;
+            position: fixed;
+        }
+        @font-face {
+            font-family: title;
+            src: url("fonts/title.ttf");
+        }
+        @font-face {
+            font-family: titlenarrow;
+            src: url("fonts/titlenarrow.ttf");
+        }
+        @font-face {
+            font-family: titlemedium;
+            src: url("fonts/titlemedium.ttf");
+        }
+        #introWrapper {
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            z-index: 30;
+
+            overflow: hidden;
+            /*z-index: 333;*/
+        }
+        #intro {
+            width: 700px;
+            height: 500px;
+            position: absolute;
+            background-repeat: no-repeat;
+            margin-left: -350px;
+            margin-top: -250px;
+            left: 50%;
+            top: 50%;
+            text-align: center;
+        }
+        #header {
+            /*opacity: 0;*/
+            margin-left: 12px;
+            width: auto;
+            text-align: center;
+        }
+        h1 {
+            font-family: 'titlenarrow', helvetica, arial, serif;
+            font-size: 2.5em;
+            text-transform: uppercase;
+            color: #000;
+            width: 350px;
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.1em;
+            position: absolute;
+            display: block;
+            text-rendering: optimizelegibility;
+            letter-spacing: 8px;
+        }
+        h1.white, h2.white, h3.white, p.white {
+            color: #FAFAFA;
+        }
+        h1.white {
+            width: 700px;
+            margin-left: 3px;
+
+        }
+        h1.large {
+            font-family: 'titlenarrow', helvetica, arial, serif;
+            width: 700px;
+            line-height: 1.3em;
+            letter-spacing: 20px;
+            color: #000;
+            font-size: 3em;
+        }
+        h1.extralarge {
+            width: 700px;
+            text-align: center;
+        }
+        h1.sub {
+            width: 700px;
+            font-size: 1em;
+            margin-top: 120px;
+            text-align: center;
+            margin-left: -6px;
+        }
+
+        h1.sub a {
+            text-decoration: none;
+        }        
+
+        #manualText {
+            /*opacity: 0; */
+            font-family: 'titlemedium', helvetica, arial, serif;
+            font-size: .75em;
+            line-height: 1.5em;
+            color: #343434;
+            -webkit-font-smoothing: antialiased;
+            width: 700px;
+            margin-top: 375px;
+            margin-left: 0px;
+            text-transform: uppercase;
+            position: absolute;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #343434;
+        }
+
+        a:hover {
+            color: #00b5a8;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0 0 1.5em 0;
+            padding-left: 1em;
+            display: inline-block;
+        }
+        
+    </style>
 </head>
 <body>
+    <div id="introWrapper">
+        <div id="intro">
+            <div id="header">
+                <h1 class="large">CARLOS PAZUZU</h1>
+                <h1 class="sub">WEB & MOBILE PROGRAMMER</h1>
+            </div>
+            <div id="manualText">
+                <ul>
+                    <li>
+                        <a href="https://github.com/carlospazuzu" target="_blank">GITHUB</a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/carlospazuzu" target="_blank">TWITTER</a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/carlos-pazuzu-a668b6135/" target="_blank">LINKEDIN</a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/carlospazuzu" target="_blank">BLOG</a>
+                    </li>
+                </ul>                  
+            </div>
+        </div>
+    </div>
     
-    <p id="timer">00:00:10</p>
-
-    <script src="https://www.gstatic.com/firebasejs/5.7.0/firebase.js"></script>
-    <script>
-    // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyDpW79MlMVcH-xdzcayQBaBSdQZZoriR3g",
-            authDomain: "cogumelando-74705.firebaseapp.com",
-            databaseURL: "https://cogumelando-74705.firebaseio.com",
-            projectId: "cogumelando-74705",
-            storageBucket: "cogumelando-74705.appspot.com",
-            messagingSenderId: "193144694539"
-        };
-        firebase.initializeApp(config);
-
-        var timeRef = firebase.database().ref('/time/current_time/');
-        timeRef.on('value', function(snapshot) {
-            document.getElementById("timer").textContent = snapshot.val();
-        });
-
-    </script>
+    
 </body>
 </html>
