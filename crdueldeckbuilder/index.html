@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> 👑 CR Duel Mode Deck Builder</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+    <!-- Don't use this in production: -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="card-data.js"></script>
+</head>
+<body>
+    <div id="root"></div>    
+    <script type="text/babel">        
+
+        class CardTemplate extends React.Component {
+            constructor(props) {
+                super(props);
+
+                // this.getRandomCard = this.getRandomCard.bind(this);
+            }
+
+            getRandomCard() {
+                /*
+                let cards = ['rare', 'legendary', 'common', 'epic'];
+                let c = Math.floor(Math.random() * cards.length);                
+                
+                let result = 'img/unknown_' + cards[c] + '_card.png';                
+                */
+                let result = 'img/unknown_card_2.png';
+
+                return <img style={{width: this.props.width}} src={result} />
+                
+            }
+
+            render() {
+                return (
+                    this.getRandomCard()
+                );
+            }
+        }
+
+        class ClickablePoolCard extends React.Component {
+
+            constructor(props) {
+                super(props);
+
+                this.state = {
+                    isInUse: false,
+                    isTransparent: false
+                }
+
+                this.componentRef = React.createRef();
+
+                this.addCardToAvailableDeck = this.addCardToAvailableDeck.bind(this);
+                this.searchAvailableRoom = this.searchAvailableRoom.bind(this);
+            }
+
+            searchAvailableRoom(collection) {
+                for (var i = 0; i < collection.length; i ++) {
+                    if (collection[i] === -1)
+                        return i;
+                }
+
+                return -2; // to tell it has no available room
+            }
+
+            addCardToAvailableDeck() {
+
+                if (this.state.isInUse || this.state.isTransparent) return;
+
+                let d1FQPos = this.searchAvailableRoom(this.props.leftSideRef.current.deck1.current.state.firstQuarter);
+                
+                if (d1FQPos !== -2) {                    
+                    this.props.leftSideRef.current.deck1.current.insertCardIntoAvailablePositionFQ(d1FQPos, this.props.position);
+                    this.setState({isInUse: true});
+                    this.componentRef.current.style.cursor = 'not-allowed';
+                    return;
+                }
+
+                let d1LQPos = this.searchAvailableRoom(this.props.leftSideRef.current.deck1.current.state.lastQuarter);
+
+                if (d1LQPos !== -2) {                    
+                    this.props.leftSideRef.current.deck1.current.insertCardIntoAvailablePositionLQ(d1LQPos, this.props.position);
+                    this.setState({isInUse: true});
+                    this.componentRef.current.style.cursor = 'not-allowed';
+                    return;
+                }
+
+                let d2FQPos = this.searchAvailableRoom(this.props.leftSideRef.current.deck2.current.state.firstQuarter);
+                
+                if (d2FQPos !== -2) {                    
+                    this.props.leftSideRef.current.deck2.current.insertCardIntoAvailablePositionFQ(d2FQPos, this.props.position);
+                    this.setState({isInUse: true});
+                    this.componentRef.current.style.cursor = 'not-allowed';
+                    return;
+                }
+
+                let d2LQPos = this.searchAvailableRoom(this.props.leftSideRef.current.deck2.current.state.lastQuarter);
+
+                if (d2LQPos !== -2) {                    
+                    this.props.leftSideRef.current.deck2.current.insertCardIntoAvailablePositionLQ(d2LQPos, this.props.position);
+                    this.setState({isInUse: true});
+                    this.componentRef.current.style.cursor = 'not-allowed';
+                    return;
+                }
+
+                let d3FQPos = this.searchAvailableRoom(this.props.leftSideRef.current.deck3.current.state.firstQuarter);
+                
+                if (d3FQPos !== -2) {                    
+                    this.props.leftSideRef.current.deck3.current.insertCardIntoAvailablePositionFQ(d3FQPos, this.props.position);
+                    this.setState({isInUse: true});
+                    this.componentRef.current.style.cursor = 'not-allowed';
+                    return;
+                }
+
+                let d3LQPos = this.searchAvailableRoom(this.props.leftSideRef.current.deck3.current.state.lastQuarter);
+
+                if (d3LQPos !== -2) {                    
+                    this.props.leftSideRef.current.deck3.current.insertCardIntoAvailablePositionLQ(d3LQPos, this.props.position);
+                    this.setState({isInUse: true});
+                    this.componentRef.current.style.cursor = 'not-allowed';
+                    return;
+                }
+            }
+
+            getProperCardImage() {
+                if (!this.state.isInUse) {
+                    return <Card width="12%" position={this.props.position} />;
+                } else {                    
+                    // return <img width="12%" src={"bwimg/" + String(this.props.position) + ".png"} />
+                    return <Card width="12%" grayscale={true} position={this.props.position} />;
+                }
+            }
+
+            render() {
+                return (
+                    <span ref={this.componentRef} style={{cursor: 'pointer'}} onClick={this.addCardToAvailableDeck}>
+                        {this.getProperCardImage()}
+                    </span>
+                );
+            }
+        }
+
+        class Card extends React.Component {
+
+            constructor(props) {
+                super(props);
+
+                // force break because the current amount of cards is 101
+                if (props.position > 100) {
+                    return false;
+                }
+
+                this.state = {
+                    cardPosition: props.position
+                }
+            }
+
+            getCard(imgNum) {                
+                return <img style={{width: this.props.width, filter: this.props.grayscale ? 'grayscale(100%)' : 'none'}} title={cardData['items'][imgNum]['name']} src={cardData['items'][imgNum]['iconUrls']['medium']} />
+            }
+
+            render () {
+                return (
+                    this.getCard(this.props.position)
+                );
+            }
+        }
+
+        class Deck extends React.Component {
+
+            constructor(props) {
+                super(props);    
+                this.state = {
+                    firstQuarter: [-1, -1, -1, -1],
+                    lastQuarter: [-1, -1, -1, -1]
+                }            
+
+                this.getProperCard = this.getProperCard.bind(this);
+                this.changeDeckCard = this.changeDeckCard.bind(this);
+                this.insertCardIntoAvailablePositionFQ = this.insertCardIntoAvailablePositionFQ.bind(this);
+            }
+
+            getProperCard(cardNum) {
+                if (cardNum === -1) {
+                    return <CardTemplate width="22%" />;
+                } else {
+                    return <Card width="22%" position={cardNum} />;
+                }
+            }
+
+            changeDeckCard() {
+                // this.setState({firstQuarter: [-1, 98, -1, -1]});
+            }
+
+            insertCardIntoAvailablePositionFQ(pos, cardNum) {
+                let fq = this.state.firstQuarter;
+                fq[pos] = cardNum;
+                this.setState({firstQuarter: fq});
+            }
+
+            insertCardIntoAvailablePositionLQ(pos, cardNum) {
+                let lq = this.state.lastQuarter;
+                lq[pos] = cardNum;
+                this.setState({lastQuarter: lq});
+            }
+
+            render () {
+                return (    
+                        <div style={{backgroundColor: '#EEEEEE', borderRadius: '10px', padding: '4px 16px', margin: '10px'}}>       
+                            <div style={{width: '48%', display: 'inline-grid', boxSizing: 'border-box'}}>
+                                <div>                                    
+                                    {this.state.firstQuarter.map((n) => this.getProperCard(n))}
+                                </div>
+                                <div>                                    
+                                    {this.state.lastQuarter.map((n) => this.getProperCard(n))}
+                                </div>
+                            </div>                            
+                            <div style={{width: '48%', display: 'inline-grid', alignItems: 'center', textAlign: 'center'}}>
+                                <span style={{color: '#666666'}}>Battle Deck {this.props.number}</span>
+                            </div>
+                        </div>
+                );
+            }
+        }
+
+        class LeftSide extends React.Component {
+
+            constructor(props) {
+                super(props);
+
+                this.deck1 = React.createRef();
+                this.deck2 = React.createRef();
+                this.deck3 = React.createRef();
+
+                this.getDeck = this.getDeck.bind(this);
+            }
+
+            getDeck(num) {
+                switch (num) {
+                    case 1:
+                        return this.deck1;
+                        break;
+                    case 2:
+                        return this.deck1;
+                        break;
+                    case 3:
+                        return this.deck1;
+                        break;
+                }
+            }
+
+            render () {
+                return (
+                    <div style={{width: this.props.width, display: 'inline-grid'}}>
+                        <Deck ref={this.deck1} number={1}/>
+                        <Deck ref={this.deck2} number={2}/>
+                        <Deck ref={this.deck3} number={3}/>
+                    </div>
+                );
+            }
+        }
+
+        class TabButton extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    style: 0
+                };
+
+                this.change = this.change.bind(this);
+                this.parentMethod = this.parentMethod.bind(this);
+            }
+
+            getDefaultStyle() {
+                if (this.state.style == 0){
+                    return {
+                        float: 'left',
+                        border: 'none',    
+                        cursor: 'pointer',
+                        backgroundColor: '#ddd',
+                        color: '#666',
+                        borderTopLeftRadius: '10px',
+                        borderTopRightRadius: '10px',
+                        border: '1px solid #ddd'                    
+                    };
+                } else {
+                    return {
+                        float: 'left',
+                        border: 'none',    
+                        cursor: 'pointer',
+                        backgroundColor: '#383961',
+                        color: '#8e8eb9',
+                        borderTopLeftRadius: '10px',
+                        borderTopRightRadius: '10px',
+                        border: '1px solid #ddd'                    
+                    }
+                }   
+            }
+
+            change() {
+                this.setState({
+                    style: {backgroundColor: 'red'}
+                });
+            }
+
+            parentMethod() {
+                this.props.parentRefMethod();
+                this.setState({style: 1});
+            }
+
+            render() {
+                return (
+                    <button ref={this.btn} onClick={this.parentMethod} style={{...this.getDefaultStyle, padding: '14px 16px'}} id={this.props.cId}>{this.props.title}</button>
+                );
+            }
+        }
+
+        class RightSide extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.returnByType = this.returnByType.bind(this);
+                this.state = {
+                    
+                }                
+
+                this.commonCardRef = React.createRef();
+                this.rareCardRef = React.createRef();
+                this.epicCardRef = React.createRef();
+                this.legendaryCardRef = React.createRef();
+
+                this.changeToCommon = this.changeToCommon.bind(this);
+                this.changeToRare = this.changeToRare.bind(this);
+                this.changeToEpic = this.changeToEpic.bind(this);
+                this.changeToLegendary = this.changeToLegendary.bind(this);
+   
+            }           
+
+            componentDidMount() {
+                this.commonCardRef.current.style.display = 'block';  
+                this.rareCardRef.current.style.display = 'none';  
+                this.epicCardRef.current.style.display = 'none';  
+                this.legendaryCardRef.current.style.display = 'none'; 
+
+                this.props.leftSideRef.current.deck1.current.changeDeckCard();
+            }
+
+            returnByType(cardType) {
+                let cardCollection = [];
+
+                for (var i = 0; i < cardData['items'].length; i ++) {
+                    if (cardData['items'][i].type === cardType) {
+                        cardCollection.push(i);
+                    }
+                }
+
+                return cardCollection;
+            }
+
+            generateCardTypeCollection(cardType) {
+                return this.returnByType(cardType).map((imgPos) => <ClickablePoolCard key={String(imgPos) + cardType} width="12%" position={imgPos} leftSideRef={this.props.leftSideRef}/>);
+            }
+
+            changeToCommon() {                
+                this.commonCardRef.current.style.display = 'block';
+                this.rareCardRef.current.style.display = 'none';
+                this.epicCardRef.current.style.display = 'none';
+                this.legendaryCardRef.current.style.display = 'none';
+            }
+
+            changeToRare() {                                
+
+                this.commonCardRef.current.style.display = 'none';
+                this.rareCardRef.current.style.display = 'block';
+                this.epicCardRef.current.style.display = 'none';
+                this.legendaryCardRef.current.style.display = 'none';
+            }
+
+            changeToEpic() {                                
+                this.commonCardRef.current.style.display = 'none';
+                this.rareCardRef.current.style.display = 'none';
+                this.epicCardRef.current.style.display = 'block';
+                this.legendaryCardRef.current.style.display = 'none';
+            }
+
+            changeToLegendary() {                
+                this.commonCardRef.current.style.display = 'none';
+                this.rareCardRef.current.style.display = 'none';
+                this.epicCardRef.current.style.display = 'none';
+                this.legendaryCardRef.current.style.display = 'block';
+            }
+
+            render () {
+                return (
+                    <div key="mainDiv" style={{width: this.props.width, height: 400, display: 'inline-grid', border: '1px solid #ddd', borderRadius: '10px'}}>
+                        <div key="tabsContainer" style={{backgroundColor: '#DDD', padding: '0px', margin: '0px', border: '1px solid #ddd', borderTopLeftRadius: '10px', borderTopRightRadius: '10px'}}>
+                            <TabButton title="Common" cId="common" parentRefMethod={this.changeToCommon} />
+                            <TabButton title="Rare" cId="rare" parentRefMethod={this.changeToRare} />
+                            <TabButton title="Epic" cId="epic" parentRefMethod={this.changeToEpic} />
+                            <TabButton title="Legendary" cId="legendary" parentRefMethod={this.changeToLegendary} />                            
+                        </div>
+                        <div key="commonCollection" ref={this.commonCardRef} style={{display: 'inline-grid', padding: '4px', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', backgroundColor: '#ddd'}}>
+                            {this.generateCardTypeCollection('C')}
+                        </div>
+                        <div key="rareCollection" ref={this.rareCardRef} style={{padding: '4px', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', backgroundColor: '#ddd'}}>
+                            {this.generateCardTypeCollection('R')}
+                        </div>
+                        <div key="epicCollection" ref={this.epicCardRef} style={{padding: '4px', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', backgroundColor: '#ddd'}}>
+                            {this.generateCardTypeCollection('E')}
+                        </div>
+                        <div key="legendaryCollection" ref={this.legendaryCardRef} style={{padding: '4px', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', backgroundColor: '#ddd'}}>
+                            {this.generateCardTypeCollection('L')}
+                        </div>
+                    </div>
+                );
+            }
+        }
+
+        class Page extends React.Component {
+
+            constructor(props) {
+                super(props);
+
+                this.leftSideRef = React.createRef();
+                this.rightSideRef = React.createRef();
+            }
+
+            render () {
+                return (
+                    <div style={{display: 'flex'}}>
+                        <LeftSide ref={this.leftSideRef} width="48%" />
+                        <RightSide width="48%" leftSideRef={this.leftSideRef} />
+                    </div>
+                );
+            }
+        }
+
+
+        ReactDOM.render(
+        <Page />,
+        document.getElementById('root')
+      );
+    </script>
+    
+</body>
+</html>

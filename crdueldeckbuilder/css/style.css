@@ -1,0 +1,64 @@
+@font-face {
+    font-family: 'ClashRoyaleFont';
+    src: url('../fonts/cr.ttf');
+}
+
+* {
+    font-family: 'ClashRoyaleFont'
+}
+
+button {
+    float: left;
+    border: none;    
+    cursor: pointer;    
+    background-color: #ddd;
+    color: #666;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+.unselected {
+    background-color: #ddd;
+    color: #666;
+}
+
+#common.active {
+    background-color: #71b2eb;
+    color: #F7F7FF;    
+}
+
+button#common:hover {
+    background-color: #71b2eb;
+    color: #F7F7FF;
+}
+
+#rare.active {
+    background-color: #F9C22E;
+    color: #704b1b;
+}
+
+button#rare:hover {
+    background-color: #F9C22E;
+    color: #704b1b;
+}
+
+#epic.active {
+    background-color: #383961;
+    color: #8e8eb9;
+}
+
+button#epic:hover {
+    background-color: #383961;
+    color: #8e8eb9;
+}
+
+#legendary.active {
+    background-color: #707274;
+    color: #F7F7FF;
+}
+
+button#legendary:hover {
+    background-color: #707274;
+    color: #F7F7FF;
+}
