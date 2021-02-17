@@ -57,6 +57,7 @@
 
                 this.addCardToAvailableDeck = this.addCardToAvailableDeck.bind(this);
                 this.searchAvailableRoom = this.searchAvailableRoom.bind(this);
+                this.turnAvailable = this.turnAvailable.bind(this);
             }
 
             searchAvailableRoom(collection) {
@@ -127,6 +128,11 @@
                 }
             }
 
+            turnAvailable() {
+                this.setState({isInUse: false});
+                this.componentRef.current.style.cursor = 'pointer';
+            }
+
             getProperCardImage() {
                 if (!this.state.isInUse) {
                     return <Card width="12%" position={this.props.position} />;
@@ -171,26 +177,103 @@
             }
         }
 
+        class ClickableDeckCard extends React.Component {
+
+            constructor(props) {
+                super(props);
+
+                this.removeCardFromDeck = this.removeCardFromDeck.bind(this);
+            }
+
+            removeCardFromDeck() {                
+
+                if (!this.props.parentDeck.isAllowedToRemove()) return;
+
+                this.props.parentDeck.removeFromDeck(this.props.position);
+                this.props.rightSideRef.current.cardRefs[this.props.position].current.turnAvailable();
+            }
+
+            render() {                
+                return(
+                    <span style={{cursor: 'pointer'}} onClick={this.removeCardFromDeck} >
+                        <Card width="22%" position={this.props.position} />
+                    </span>
+                );
+            }
+        }
+
         class Deck extends React.Component {
 
             constructor(props) {
                 super(props);    
                 this.state = {
                     firstQuarter: [-1, -1, -1, -1],
-                    lastQuarter: [-1, -1, -1, -1]
+                    lastQuarter: [-1, -1, -1, -1],
+                    deckCount: 0
                 }            
 
                 this.getProperCard = this.getProperCard.bind(this);
                 this.changeDeckCard = this.changeDeckCard.bind(this);
                 this.insertCardIntoAvailablePositionFQ = this.insertCardIntoAvailablePositionFQ.bind(this);
+                this.findCardPosition = this.findCardPosition.bind(this);
+                this.removeFromDeck = this.removeFromDeck.bind(this);
+                this.isAllowedToRemove = this.isAllowedToRemove.bind(this);
             }
 
             getProperCard(cardNum) {
                 if (cardNum === -1) {
                     return <CardTemplate width="22%" />;
                 } else {
-                    return <Card width="22%" position={cardNum} />;
+                    return <ClickableDeckCard width="22%" position={cardNum} parentDeck={this} rightSideRef={this.props.rightSideRef} />;
                 }
+            }
+
+            findCardPosition(collection, cardNum) {
+                for (var i = 0; i < collection.length; i++) {
+                    if (collection[i] === cardNum) {
+                        return i;
+                    }
+                }
+
+                return -2;
+            }
+
+            isAllowedToRemove() {
+                // avoid removing cards from previously defined decks
+                if (this.props.number === 1 && this.props.leftSideRef.deck2.current.state.deckCount > 0) {
+                    return false;
+                } else if (this.props.number === 2 && this.props.leftSideRef.deck3.current.state.deckCount > 0) {
+                    return false;
+                }
+
+                return true;
+            }
+
+            removeFromDeck(cardNum) {    
+                /*
+                let allowed = this.isAllowedToRemove();
+
+                if (allowed === false) return;
+                */
+                let fqCpos = this.findCardPosition(this.state.firstQuarter, cardNum);    
+                
+                if (fqCpos !== -2) {                    
+                    let tmpFQState = this.state.firstQuarter;
+                    tmpFQState[fqCpos] = -1;
+                    this.setState({firstQuarter: tmpFQState}); 
+                    this.setState({deckCount: this.state.deckCount - 1});
+                    return;
+                }
+
+                let lqCpos = this.findCardPosition(this.state.lastQuarter, cardNum);                
+
+                if (lqCpos !== -2) {
+                    let tmpLQState = this.state.lastQuarter;
+                    tmpLQState[lqCpos] = -1;
+                    this.setState({lastQuarter: tmpLQState});
+                    this.setState({deckCount: this.state.deckCount - 1});               
+                }
+
             }
 
             changeDeckCard() {
@@ -200,13 +283,13 @@
             insertCardIntoAvailablePositionFQ(pos, cardNum) {
                 let fq = this.state.firstQuarter;
                 fq[pos] = cardNum;
-                this.setState({firstQuarter: fq});
+                this.setState({firstQuarter: fq, deckCount: this.state.deckCount + 1});
             }
 
             insertCardIntoAvailablePositionLQ(pos, cardNum) {
                 let lq = this.state.lastQuarter;
                 lq[pos] = cardNum;
-                this.setState({lastQuarter: lq});
+                this.setState({lastQuarter: lq, deckCount: this.state.deckCount + 1});
             }
 
             render () {
@@ -238,6 +321,8 @@
                 this.deck3 = React.createRef();
 
                 this.getDeck = this.getDeck.bind(this);
+
+                console.log(props.rightSideRef);
             }
 
             getDeck(num) {
@@ -257,9 +342,9 @@
             render () {
                 return (
                     <div style={{width: this.props.width, display: 'inline-grid'}}>
-                        <Deck ref={this.deck1} number={1}/>
-                        <Deck ref={this.deck2} number={2}/>
-                        <Deck ref={this.deck3} number={3}/>
+                        <Deck ref={this.deck1} number={1} leftSideRef={this} rightSideRef={this.props.rightSideRef} />
+                        <Deck ref={this.deck2} number={2} leftSideRef={this} rightSideRef={this.props.rightSideRef} />
+                        <Deck ref={this.deck3} number={3} leftSideRef={this} rightSideRef={this.props.rightSideRef} />
                     </div>
                 );
             }
@@ -330,6 +415,8 @@
                     
                 }                
 
+                this.cardRefs = {};                                
+
                 this.commonCardRef = React.createRef();
                 this.rareCardRef = React.createRef();
                 this.epicCardRef = React.createRef();
@@ -339,6 +426,7 @@
                 this.changeToRare = this.changeToRare.bind(this);
                 this.changeToEpic = this.changeToEpic.bind(this);
                 this.changeToLegendary = this.changeToLegendary.bind(this);
+                this.getRef = this.getRef.bind(this);
    
             }           
 
@@ -349,6 +437,7 @@
                 this.legendaryCardRef.current.style.display = 'none'; 
 
                 this.props.leftSideRef.current.deck1.current.changeDeckCard();
+
             }
 
             returnByType(cardType) {
@@ -363,8 +452,14 @@
                 return cardCollection;
             }
 
+            getRef(pos) {
+                this.cardRefs[pos] = React.createRef();
+
+                return this.cardRefs[pos];
+            }
+
             generateCardTypeCollection(cardType) {
-                return this.returnByType(cardType).map((imgPos) => <ClickablePoolCard key={String(imgPos) + cardType} width="12%" position={imgPos} leftSideRef={this.props.leftSideRef}/>);
+                return this.returnByType(cardType).map((imgPos) => <ClickablePoolCard ref={this.getRef(imgPos)} key={String(imgPos) + cardType} width="12%" position={imgPos} leftSideRef={this.props.leftSideRef}/>);
             }
 
             changeToCommon() {                
@@ -417,6 +512,14 @@
                         <div key="legendaryCollection" ref={this.legendaryCardRef} style={{padding: '4px', borderBottomLeftRadius: '10px', borderBottomRightRadius: '10px', backgroundColor: '#ddd'}}>
                             {this.generateCardTypeCollection('L')}
                         </div>
+                        <span style={{fontSize: '11px', margin: '4px', color: '#666'}}>
+                            Programmed with 💖 by <a href="https://www.twitter.com/carlospazuzu" target="_blank" >@carlospazuzu</a>. 
+                            If it was somehow useful for you, please let me know.
+                            Compliments or bug reports are appreciated. <br /> <br />
+                            For rapid cleaning all decks, just refresh the page. <br />
+                            Click the card in the right to add to a deck and click a card in the left to remove it. <br />
+                            For safety purposes, you can only remove cards from the foremost deck.
+                        </span>
                     </div>
                 );
             }
@@ -432,11 +535,11 @@
             }
 
             render () {
-                return (
-                    <div style={{display: 'flex'}}>
-                        <LeftSide ref={this.leftSideRef} width="48%" />
-                        <RightSide width="48%" leftSideRef={this.leftSideRef} />
-                    </div>
+                return (                    
+                        <div style={{display: 'flex'}}>
+                            <LeftSide ref={this.leftSideRef} width="48%" rightSideRef={this.rightSideRef} />
+                            <RightSide ref={this.rightSideRef} width="48%" leftSideRef={this.leftSideRef} />                        
+                        </div>
                 );
             }
         }
