@@ -209,8 +209,12 @@
                 this.state = {
                     firstQuarter: [-1, -1, -1, -1],
                     lastQuarter: [-1, -1, -1, -1],
-                    deckCount: 0
+                    deckCount: 0,
+                    avgDeckElixir: 0.0,
+                    fourCardCycleCost: 0.0
                 }            
+
+                this.deckInfoRef = React.createRef();
 
                 this.getProperCard = this.getProperCard.bind(this);
                 this.changeDeckCard = this.changeDeckCard.bind(this);
@@ -218,6 +222,59 @@
                 this.findCardPosition = this.findCardPosition.bind(this);
                 this.removeFromDeck = this.removeFromDeck.bind(this);
                 this.isAllowedToRemove = this.isAllowedToRemove.bind(this);
+                this.calculateDeckElixirAvg = this.calculateDeckElixirAvg.bind(this);
+                this.getFullDeckArray = this.getFullDeckArray.bind(this);
+                this.calculateFourCardCycleCost = this.calculateFourCardCycleCost.bind(this);
+                this.copyDeck = this.copyDeck.bind(this);
+                this.deleteDeck = this.deleteDeck.bind(this);
+            }
+
+            getFullDeckArray() {
+                let fq = this.state.firstQuarter;
+                let lq = this.state.lastQuarter;
+
+                let fullDeck = fq.concat(lq);
+
+                return fullDeck;
+            }
+
+            calculateFourCardCycleCost() {
+                let fullDeck = this.getFullDeckArray();
+
+                let fullCostDeck = [];
+                let fourCardCycleSum = 0;
+
+                fullDeck.map((pos) => fullCostDeck.push(cardData['items'][pos]['cost']));
+
+                for (var i = 0; i < 4; i ++) {
+                    // search for current minimum card cost
+                    let min = 999999999;
+                    let curMinPos = 0;
+                    for (var j = 0; j < fullCostDeck.length; j++) {
+                        if (fullCostDeck[j] < min) {
+                            min = fullCostDeck[j];
+                            curMinPos = j;
+                        }
+                    }
+
+                    fourCardCycleSum += min;
+                    fullCostDeck[curMinPos] = 999999999;
+                }
+
+                this.setState({fourCardCycleCost: (fourCardCycleSum + 0.01).toFixed(1)});
+            }
+
+            calculateDeckElixirAvg() {                
+
+                let fullDeck = this.getFullDeckArray();
+
+                let cont = 0;
+
+                fullDeck.map((pos) => cont += cardData['items'][pos]['cost']);
+
+                let avgElixir = (cont / 8).toFixed(1);
+
+                this.setState({avgDeckElixir: avgElixir});
             }
 
             getProperCard(cardNum) {
@@ -261,7 +318,11 @@
                     let tmpFQState = this.state.firstQuarter;
                     tmpFQState[fqCpos] = -1;
                     this.setState({firstQuarter: tmpFQState}); 
-                    this.setState({deckCount: this.state.deckCount - 1});
+                    this.setState({deckCount: this.state.deckCount - 1}, () => {
+                        if (this.state.deckCount < 8) {
+                            this.deckInfoRef.current.style.display = 'none';
+                        }
+                    });
                     return;
                 }
 
@@ -271,7 +332,11 @@
                     let tmpLQState = this.state.lastQuarter;
                     tmpLQState[lqCpos] = -1;
                     this.setState({lastQuarter: tmpLQState});
-                    this.setState({deckCount: this.state.deckCount - 1});               
+                    this.setState({deckCount: this.state.deckCount - 1}, () => {
+                        if (this.state.deckCount < 8) {
+                            this.deckInfoRef.current.style.display = 'none';
+                        }
+                    });               
                 }
 
             }
@@ -283,13 +348,72 @@
             insertCardIntoAvailablePositionFQ(pos, cardNum) {
                 let fq = this.state.firstQuarter;
                 fq[pos] = cardNum;
-                this.setState({firstQuarter: fq, deckCount: this.state.deckCount + 1});
+                this.setState({firstQuarter: fq, deckCount: this.state.deckCount + 1},
+                () => {
+                    if (this.state.deckCount === 8) {
+                        this.calculateDeckElixirAvg();
+                        this.calculateFourCardCycleCost();
+                        this.deckInfoRef.current.style.display = 'block';
+                    }
+                }
+                );
+                
             }
 
             insertCardIntoAvailablePositionLQ(pos, cardNum) {
                 let lq = this.state.lastQuarter;
                 lq[pos] = cardNum;
-                this.setState({lastQuarter: lq, deckCount: this.state.deckCount + 1});
+                this.setState({lastQuarter: lq, deckCount: this.state.deckCount + 1}, 
+                () => {
+                    if (this.state.deckCount === 8) {
+                        this.calculateDeckElixirAvg();
+                        this.calculateFourCardCycleCost();
+                        this.deckInfoRef.current.style.display = 'block';
+                    }
+                });                  
+            }
+
+            deleteDeck() {
+
+                if (this.isAllowedToRemove()) {
+
+                    let fullDeck = this.getFullDeckArray();
+
+                    fullDeck.map((pos) => {
+                        this.props.rightSideRef.current.cardRefs[pos].current.turnAvailable();
+                    });
+
+                    this.setState({
+                        firstQuarter: [-1, -1, -1, -1],
+                        lastQuarter: [-1, -1, -1, -1],
+                        deckCount: 0
+                    }, () => {
+                        this.deckInfoRef.current.style.display = 'none';
+                    });
+                    
+                }        
+
+            }
+
+            copyDeck() {
+                let fullDeck = this.getFullDeckArray();
+
+                let cardIdList = [];
+
+                let crLink = 'https://link.clashroyale.com/deck/en?deck=';
+
+                fullDeck.map((pos) => cardIdList.push(cardData['items'][pos]['id']));
+
+                for (var i = 0; i < cardIdList.length; i++) {
+                    if (i < cardIdList.length - 1) {
+                        crLink += String(cardIdList[i]) + ';';
+                    } else {
+                        crLink += String(cardIdList[i]);
+                    }
+                }
+
+                window.open(crLink, '_blank');
+                
             }
 
             render () {
@@ -303,8 +427,20 @@
                                     {this.state.lastQuarter.map((n) => this.getProperCard(n))}
                                 </div>
                             </div>                            
-                            <div style={{width: '48%', display: 'inline-grid', alignItems: 'center', textAlign: 'center'}}>
-                                <span style={{color: '#666666'}}>Battle Deck {this.props.number}</span>
+                            <div style={{width: '48%', display: 'inline-block', alignItems: 'center', textAlign: 'center', justifyContent: 'center'}}>
+                                <div style={{color: '#666666', marginBottom: '8px'}}>
+                                    Battle Deck {this.props.number}
+                                </div> 
+                                <div ref={this.deckInfoRef} style={{display: 'none'}}>
+                                    <div style={{margin: '8px', verticalAlign: 'middle'}}>
+                                        <img style={{width: '14%', margin: '8px'}}  src="img/elixir.png" />   <span> {this.state.avgDeckElixir} </span>
+                                        <img style={{width: '14%', margin: '8px'}} src="img/elixir-cycle.png" /> <span> {this.state.fourCardCycleCost} </span>
+                                    </div> 
+                                    <div>  
+                                        <button style={{background: '#FDD835', color: '#F57F17', borderRadius: '4px', marginRight: '12px', border: '4px solid #000'}} onClick={this.copyDeck}>Copy Deck!</button>
+                                        <button style={{background: '#EB6C6B', color: '#A51616', borderRadius: '4px', border: '4px solid #000'}} onClick={this.deleteDeck}>Delete Deck!</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                 );
