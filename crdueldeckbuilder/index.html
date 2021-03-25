@@ -126,6 +126,24 @@
                     this.componentRef.current.style.cursor = 'not-allowed';
                     return;
                 }
+
+                let d4FQPos = this.searchAvailableRoom(this.props.leftSideRef.current.deck4.current.state.firstQuarter);
+                
+                if (d4FQPos !== -2) {                    
+                    this.props.leftSideRef.current.deck4.current.insertCardIntoAvailablePositionFQ(d4FQPos, this.props.position);
+                    this.setState({isInUse: true});
+                    this.componentRef.current.style.cursor = 'not-allowed';
+                    return;
+                }
+
+                let d4LQPos = this.searchAvailableRoom(this.props.leftSideRef.current.deck4.current.state.lastQuarter);
+
+                if (d4LQPos !== -2) {                    
+                    this.props.leftSideRef.current.deck4.current.insertCardIntoAvailablePositionLQ(d4LQPos, this.props.position);
+                    this.setState({isInUse: true});
+                    this.componentRef.current.style.cursor = 'not-allowed';
+                    return;
+                }
             }
 
             turnAvailable() {
@@ -302,6 +320,8 @@
                     return false;
                 } else if (this.props.number === 2 && this.props.leftSideRef.deck3.current.state.deckCount > 0) {
                     return false;
+                } else if (this.props.number === 3 && this.props.leftSideRef.deck4.current.state.deckCount > 0) {
+                    return false;
                 }
 
                 return true;
@@ -332,6 +352,10 @@
                             this.props.leftSideRef.deck2.current.deleteBtnRef.current.disabled = false;
                             this.props.leftSideRef.deck2.current.deleteBtnRef.current.style.background = '#EB6C6B';
                             this.props.leftSideRef.deck2.current.deleteBtnRef.current.style.color = '#A51616';
+                        } else if (this.state.deckCount === 0 && this.props.number === 4) {
+                            this.props.leftSideRef.deck3.current.deleteBtnRef.current.disabled = false;
+                            this.props.leftSideRef.deck3.current.deleteBtnRef.current.style.background = '#EB6C6B';
+                            this.props.leftSideRef.deck3.current.deleteBtnRef.current.style.color = '#A51616';
                         }
                     });
                     return;
@@ -368,6 +392,12 @@
                     this.props.leftSideRef.deck2.current.deleteBtnRef.current.disabled = true;
                     this.props.leftSideRef.deck2.current.deleteBtnRef.current.style.background = '#D4D4D3';
                     this.props.leftSideRef.deck2.current.deleteBtnRef.current.style.color = '#3F3B3D';
+                }
+
+                if (this.props.number === 4 && !this.props.leftSideRef.deck3.current.deleteBtnRef.current.disabled) {
+                    this.props.leftSideRef.deck3.current.deleteBtnRef.current.disabled = true;
+                    this.props.leftSideRef.deck3.current.deleteBtnRef.current.style.background = '#D4D4D3';
+                    this.props.leftSideRef.deck3.current.deleteBtnRef.current.style.color = '#3F3B3D';
                 }
 
                 let fq = this.state.firstQuarter;
@@ -423,6 +453,11 @@
                             this.props.leftSideRef.deck2.current.deleteBtnRef.current.disabled = false;
                             this.props.leftSideRef.deck2.current.deleteBtnRef.current.style.background = '#EB6C6B';
                             this.props.leftSideRef.deck2.current.deleteBtnRef.current.style.color = '#A51616';
+
+                        }  else if (this.props.number === 4) {
+                            this.props.leftSideRef.deck3.current.deleteBtnRef.current.disabled = false;
+                            this.props.leftSideRef.deck3.current.deleteBtnRef.current.style.background = '#EB6C6B';
+                            this.props.leftSideRef.deck3.current.deleteBtnRef.current.style.color = '#A51616';
                         }
                     });
                     
@@ -490,6 +525,7 @@
                 this.deck1 = React.createRef();
                 this.deck2 = React.createRef();
                 this.deck3 = React.createRef();
+                this.deck4 = React.createRef();
 
                 this.getDeck = this.getDeck.bind(this);
 
@@ -502,10 +538,13 @@
                         return this.deck1;
                         break;
                     case 2:
-                        return this.deck1;
+                        return this.deck2;
                         break;
                     case 3:
-                        return this.deck1;
+                        return this.deck3;
+                        break;
+                    case 4:
+                        return this.deck4;
                         break;
                 }
             }
@@ -516,6 +555,7 @@
                         <Deck ref={this.deck1} number={1} leftSideRef={this} rightSideRef={this.props.rightSideRef} />
                         <Deck ref={this.deck2} number={2} leftSideRef={this} rightSideRef={this.props.rightSideRef} />
                         <Deck ref={this.deck3} number={3} leftSideRef={this} rightSideRef={this.props.rightSideRef} />
+                        <Deck ref={this.deck4} number={4} leftSideRef={this} rightSideRef={this.props.rightSideRef} />
                     </div>
                 );
             }
