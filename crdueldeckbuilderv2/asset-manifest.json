@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/crdueldeckbuilderv2/static/css/main.a321118d.chunk.css",
+    "main.js": "/crdueldeckbuilderv2/static/js/main.071ad294.chunk.js",
+    "main.js.map": "/crdueldeckbuilderv2/static/js/main.071ad294.chunk.js.map",
+    "runtime-main.js": "/crdueldeckbuilderv2/static/js/runtime-main.1ab4f88c.js",
+    "runtime-main.js.map": "/crdueldeckbuilderv2/static/js/runtime-main.1ab4f88c.js.map",
+    "static/js/2.5a74193b.chunk.js": "/crdueldeckbuilderv2/static/js/2.5a74193b.chunk.js",
+    "static/js/2.5a74193b.chunk.js.map": "/crdueldeckbuilderv2/static/js/2.5a74193b.chunk.js.map",
+    "static/js/3.b042c7db.chunk.js": "/crdueldeckbuilderv2/static/js/3.b042c7db.chunk.js",
+    "static/js/3.b042c7db.chunk.js.map": "/crdueldeckbuilderv2/static/js/3.b042c7db.chunk.js.map",
+    "index.html": "/crdueldeckbuilderv2/index.html",
+    "static/css/main.a321118d.chunk.css.map": "/crdueldeckbuilderv2/static/css/main.a321118d.chunk.css.map",
+    "static/js/2.5a74193b.chunk.js.LICENSE.txt": "/crdueldeckbuilderv2/static/js/2.5a74193b.chunk.js.LICENSE.txt",
+    "static/media/banned-stamp.39ae9a71.png": "/crdueldeckbuilderv2/static/media/banned-stamp.39ae9a71.png",
+    "static/media/banned-stamp2.6c16358a.png": "/crdueldeckbuilderv2/static/media/banned-stamp2.6c16358a.png",
+    "static/media/banned.32153141.png": "/crdueldeckbuilderv2/static/media/banned.32153141.png",
+    "static/media/blueCrown.3f8121c3.png": "/crdueldeckbuilderv2/static/media/blueCrown.3f8121c3.png",
+    "static/media/custom.css": "/crdueldeckbuilderv2/static/media/cr.cd015568.ttf",
+    "static/media/redCrown.f89d764f.png": "/crdueldeckbuilderv2/static/media/redCrown.f89d764f.png",
+    "static/media/x-stamp.528f8113.png": "/crdueldeckbuilderv2/static/media/x-stamp.528f8113.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1ab4f88c.js",
+    "static/js/2.5a74193b.chunk.js",
+    "static/css/main.a321118d.chunk.css",
+    "static/js/main.071ad294.chunk.js"
+  ]
+}
