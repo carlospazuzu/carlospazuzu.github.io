@@ -135,7 +135,7 @@ var cardData =
         "name": "Bomber",
         "id": 26000013,
         "maxLevel": 13,
-        "cost": 3,
+        "cost": 2,
         "type": "C",
         "iconUrls": {
           "medium": "https://api-assets.clashroyale.com/cards/300/12n1CesxKIcqVYntjxcF36EFA-ONw7Z-DoL0_rQrbdo.png"
