@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/crdueldeckbuilderv2/static/css/main.bcf831be.chunk.css",
-    "main.js": "/crdueldeckbuilderv2/static/js/main.01708dc2.chunk.js",
-    "main.js.map": "/crdueldeckbuilderv2/static/js/main.01708dc2.chunk.js.map",
+    "main.js": "/crdueldeckbuilderv2/static/js/main.885b4c57.chunk.js",
+    "main.js.map": "/crdueldeckbuilderv2/static/js/main.885b4c57.chunk.js.map",
     "runtime-main.js": "/crdueldeckbuilderv2/static/js/runtime-main.86421202.js",
     "runtime-main.js.map": "/crdueldeckbuilderv2/static/js/runtime-main.86421202.js.map",
     "static/js/2.ccb59a04.chunk.js": "/crdueldeckbuilderv2/static/js/2.ccb59a04.chunk.js",
@@ -28,6 +28,6 @@
     "static/js/runtime-main.86421202.js",
     "static/js/2.ccb59a04.chunk.js",
     "static/css/main.bcf831be.chunk.css",
-    "static/js/main.01708dc2.chunk.js"
+    "static/js/main.885b4c57.chunk.js"
   ]
 }
