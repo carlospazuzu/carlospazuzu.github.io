@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Elixir Counting Training</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
+	<script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+	<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>	
+</head>
+<body>
+	<div id="root"></div>
+	<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+	<script type="text/babel">
+		class Page extends React.Component {
+
+			constructor(props) {
+				super(props);
+				this.state = {
+					numberPool: [
+								1, 1,
+								2, 2, 2,
+								3, 3, 3,
+								4, 4, 4, 4,
+								5, 5, 5, 5, 
+								6, 6, 6, 6,
+								7, 7, 7, 7,
+								8, 8, 8,
+								9, 9
+
+				],
+					currentAnswer: null,
+					firstNumber: null,
+					secondNumber: null,
+					operation: null	
+				};
+
+				this.inputRef = React.createRef();
+
+				this.setup = this.setup.bind(this);
+
+			}
+
+			componentDidMount() {
+				this.setup();
+				this.inputRef.current.focus();
+			}
+
+			setup() {
+
+				var f = this.state.numberPool[Math.floor(Math.random() * this.state.numberPool.length)];
+				var s = this.state.numberPool[Math.floor(Math.random() * this.state.numberPool.length)];
+
+				var check = -1;
+
+				while (check > 10 && check < -10) {
+					f = this.state.numberPool[Math.floor(Math.random() * this.state.numberPool.length)];
+					s = this.state.numberPool[Math.floor(Math.random() * this.state.numberPool.length)];
+
+					check = f + s;
+				}				
+
+				var signalFirst = Math.floor(Math.random() * 2) === 0 ? '+' : '-';
+				var signalSecond = Math.floor(Math.random() * 2) === 0 ? '+' : '-';
+
+				var fb = f;
+				var sb = s;
+
+				if (signalFirst === '-') {
+					f *= -1;
+				}
+
+				if (signalSecond === '-') {
+					s *= -1;
+				}
+
+				var r = 0;
+
+				r += f;
+				r += s;
+
+				this.setState({
+					firstNumber: f,
+					secondNumber: sb,
+					currentAnswer: r,
+					operation: signalSecond
+				}, () => console.log(this.state.currentAnswer));
+
+			}
+
+
+			render() {
+				return(
+					<div className="container" style={{marginTop: '15rem'}}>
+						<div className="row">
+							<div className="twelve columns" style={{textAlign: 'center'}}>
+								<h1>{this.state.firstNumber} {this.state.operation} {this.state.secondNumber}</h1>
+							</div>					
+						</div>
+						<div className="row">
+							<div className="twelve columns">
+								<input ref={this.inputRef} className="u-full-width" type="text" />
+							</div>
+						</div>
+					</div>
+				);
+			}
+		}
+
+		ReactDOM.render(
+			<Page />,
+			document.getElementById('root')
+		);
+	</script>
+</body>
+</html>
