@@ -312,10 +312,10 @@ var cardData =
         }
       },
       {
-        "name": "Fire Spirits",
+        "name": "Fire Spirit",
         "id": 26000031,
         "maxLevel": 13,
-        "cost": 2,
+        "cost": 1,
         "type": "C",
         "iconUrls": {
           "medium": "https://api-assets.clashroyale.com/cards/300/16-BqusVvynIgYI8_Jci3LDC-r8AI_xaIYLgXqtlmS8.png"
@@ -829,6 +829,16 @@ var cardData =
         "type": "R",
         "iconUrls": {
           "medium": "https://api-assets.clashroyale.com/cards/300/vD24bBgK4rSq7wx5QEbuqChtPMRFviL_ep76GwQw1yA.png"
+        }
+      },
+      {
+        "name": "Goblin Drill",
+        "id": 27000013,
+        "maxLevel": 8,
+        "cost": 4,
+        "type": "E",
+        "iconUrls": {
+          "medium": "https://api-assets.clashroyale.com/cards/300/eN2TKUYbih-26yBi0xy5LVFOA0zDftgDqxxnVfdIg1o.png"
         }
       },
       {
