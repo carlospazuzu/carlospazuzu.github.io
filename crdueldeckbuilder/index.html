@@ -13,7 +13,10 @@
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'G-RRBVMY3NT5');
+      gtag('config', 'G-RRBVMY3NT5', {
+        cookie_domain: 'carlospazuzu.github.io/',
+        cookie_flags: 'SameSite=None;Secure',
+      });
     </script>
     <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
