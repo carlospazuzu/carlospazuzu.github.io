@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.css": "/clashroyaledueldeckbuilderv2/static/css/main.5e17a83f.chunk.css",
-    "main.js": "/clashroyaledueldeckbuilderv2/static/js/main.7b14ccff.chunk.js",
-    "main.js.map": "/clashroyaledueldeckbuilderv2/static/js/main.7b14ccff.chunk.js.map",
+    "main.css": "/clashroyaledueldeckbuilderv2/static/css/main.2eeb2c57.chunk.css",
+    "main.js": "/clashroyaledueldeckbuilderv2/static/js/main.f75e90b6.chunk.js",
+    "main.js.map": "/clashroyaledueldeckbuilderv2/static/js/main.f75e90b6.chunk.js.map",
     "runtime-main.js": "/clashroyaledueldeckbuilderv2/static/js/runtime-main.0c7c52fb.js",
     "runtime-main.js.map": "/clashroyaledueldeckbuilderv2/static/js/runtime-main.0c7c52fb.js.map",
     "static/js/2.2d233475.chunk.js": "/clashroyaledueldeckbuilderv2/static/js/2.2d233475.chunk.js",
@@ -10,7 +10,7 @@
     "static/js/3.67e2979a.chunk.js": "/clashroyaledueldeckbuilderv2/static/js/3.67e2979a.chunk.js",
     "static/js/3.67e2979a.chunk.js.map": "/clashroyaledueldeckbuilderv2/static/js/3.67e2979a.chunk.js.map",
     "index.html": "/clashroyaledueldeckbuilderv2/index.html",
-    "static/css/main.5e17a83f.chunk.css.map": "/clashroyaledueldeckbuilderv2/static/css/main.5e17a83f.chunk.css.map",
+    "static/css/main.2eeb2c57.chunk.css.map": "/clashroyaledueldeckbuilderv2/static/css/main.2eeb2c57.chunk.css.map",
     "static/js/2.2d233475.chunk.js.LICENSE.txt": "/clashroyaledueldeckbuilderv2/static/js/2.2d233475.chunk.js.LICENSE.txt",
     "static/media/app-logo.01d9cc22.png": "/clashroyaledueldeckbuilderv2/static/media/app-logo.01d9cc22.png",
     "static/media/banned-stamp.39ae9a71.png": "/clashroyaledueldeckbuilderv2/static/media/banned-stamp.39ae9a71.png",
@@ -27,7 +27,7 @@
   "entrypoints": [
     "static/js/runtime-main.0c7c52fb.js",
     "static/js/2.2d233475.chunk.js",
-    "static/css/main.5e17a83f.chunk.css",
-    "static/js/main.7b14ccff.chunk.js"
+    "static/css/main.2eeb2c57.chunk.css",
+    "static/js/main.f75e90b6.chunk.js"
   ]
 }
